@@ -1,45 +1,37 @@
-import React from 'react';
-import {NavigationContainer, StackActions} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {Button, Text,StyleSheet, View} from 'react-native';
-const stack = createNativeStackNavigator();
-const App = () => {
-  return (
+import React from "react";
+import { NavigationContainer} from "@react-navigation/native";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
+import { Button, Text, View } from "react-native";
+const tabs=createMaterialTopTabNavigator();
+const App=()=>{
+  return(
     <NavigationContainer>
-      <stack.Navigator>
-        <stack.Screen name="Login" component={Login} options={{title:"User Login", headerStyle:{
-          backgroundColor:"red"
-        },
-        headerTitleStyle:{
-          fontSize:30,
-          fontWeight:"bold"
-        }
-        
-        
-        
-        
-        
-        }}></stack.Screen>
-        <stack.Screen name="Home" component={Home}></stack.Screen>
-      </stack.Navigator>
+     <tabs.Navigator>
+      <tabs.Screen name="Home" component={Home}></tabs.Screen>
+
+      <tabs.Screen name="Login" component={Login}></tabs.Screen>
+
+
+     </tabs.Navigator>
+      
+      
     </NavigationContainer>
   );
+    
 };
-const Home = () => {
-  return (
+const Home=()=>{
+  return(
     <View>
       <Text>Hello</Text>
     </View>
-  );
-};
-const Login = props => {
-  return (
-    <View style={{fontSize:30, textAlign:"center", justifyContent:"center", color:"red"}}>
+  )
+}
+const Login=(props)=>{
+  return(
+    <View>
       <Text>Bye</Text>
-      <Button
-        title=" Go To Login Page"
-        onPress={() => props.navigation.navigate('Home')}></Button>
+      <Button title=" Go To Login Page" onPress={()=>props.navigation.navigate("Home")}></Button>
     </View>
-  );
-};
+  )
+}
 export default App;
