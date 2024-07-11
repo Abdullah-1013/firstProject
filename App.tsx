@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Text, View } from "react-native";
+import { Button, Text, View } from "react-native";
 const App=()=>{
     const[Data,setData]=useState([])
     const getAPI=async()=>{
@@ -10,10 +10,20 @@ const App=()=>{
         if(result){
             setData(result)
         }
-    }
-        useEffect(()=>{
+      }
+    const deleteData=async(id)=>{
+        const url="http://10.0.2.2:3000/User";
+        let result=await fetch(`${url}/${id}`,{
+            method:"delete"
+        });
+        if(result){
+            console.warn("User deleted Successfully");
             getAPI();
-        },[])
+        }
+    }
+    useEffect(()=>{
+        getAPI();
+    },[])
     return(
         <View>
             {
@@ -23,6 +33,7 @@ const App=()=>{
                     <Text style={{fontSize:30, color:"red", fontWeight:"bold"}}>{item.name}</Text>
                     <Text style={{fontSize:30, color:"green", fontWeight:"bold"}}>{item.age}</Text>
                     <Text style={{fontSize:30, color:"pink", fontWeight:"bold"}}>{item.email}</Text>
+                    <Button title="Delete" onPress={()=>deleteData(item.id)}></Button>
 
                 </View>
                 )
