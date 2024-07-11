@@ -1,46 +1,39 @@
-import React, { useState } from "react";
-import { Alert, Button, TextInput, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Text, View } from "react-native";
 const App=()=>{
-    const[name,setname]=useState('');
-    const[age,setage]=useState('');
-    const[email,setemail]=useState('');
-
-    const savedata=async()=>{
-        if(!name||!age||!email)
-        {
-            Alert.alert("Please fill all the fields");
-            return;
-        }
+    const[Data,setData]=useState([])
+    const getAPI=async()=>{
         const url="http://10.0.2.2:3000/User";
-        let result=fetch(url,{
-            method:"POST",
-            headers:{
-                "Content-Type":"application/json"
-
-            },
-            body:JSON.stringify({name,age,email})
-
-        });
-        result=(await result).json();
+        let result=await fetch(url);
+        result=await result.json();
+        console.warn(result);
         if(result){
-            console.warn("Data is saved successfully");
+            setData(result)
         }
-
     }
+        useEffect(()=>{
+            getAPI();
+        },[])
     return(
         <View>
-            <TextInput value={name} onChangeText={(text)=>setname(text)} placeholder="Enter the name"></TextInput>
-            <TextInput value={age} onChangeText={(text)=>setage(text)} placeholder="Enter the age"></TextInput>
-            <TextInput value={email} onChangeText={(text)=>setemail(text)} placeholder="Enter the email"></TextInput>
-            <Button title="Save Data" onPress={savedata}></Button>
+            {
+                Data.length ?
+                Data.map((item)=>
+                <View>
+                    <Text style={{fontSize:30, color:"red", fontWeight:"bold"}}>{item.name}</Text>
+                    <Text style={{fontSize:30, color:"green", fontWeight:"bold"}}>{item.age}</Text>
+                    <Text style={{fontSize:30, color:"pink", fontWeight:"bold"}}>{item.email}</Text>
 
+                </View>
+                )
+                :null
+            }
         </View>
 
 
 
 
     );
-
 
 }
 export default App;
