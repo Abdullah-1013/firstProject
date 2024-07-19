@@ -1,55 +1,35 @@
-import React, { useEffect, useState } from "react";
-import { Button, Modal, Text, View } from "react-native";
+import React from "react";
+import {ScrollView,Text, View } from "react-native";
+import Headers from "./Components/Headers";
+import Product from "./Components/redux/Product";
 const App=()=>{
-    const[data,Setdata]=useState([]);
-    const getAPI=async()=>{
-        const url='http://10.0.2.2:3000/User';
-        let result=await fetch(url);
-        result=await result.json();
-        if(result){
-            Setdata(result);
-            
-        }
-
-
-    }
-    const Deleteuser=async(id)=>{
-        const url="http://10.0.2.2:3000/User";
-        let result = await fetch(`${url}/${id}`, {
-            method: "DELETE"
-        });
-        result=await result.json();
-        if(result){
-            console.warn("User is deleted successfully.")
-        }
-    }
-
-    useEffect(()=>{
-        getAPI();
-    },[])
-    return(
-        <View>
-            {
-                data.length?
-                data.map((item)=><View>
-                    <View><Text style={{fontSize:30}}>{item.id}</Text></View>
-                    <View><Button title="Delete" onPress={()=>Deleteuser(item.id)}></Button></View>
-                    <View><Button title="Update"></Button></View>
-
-
-                </View>)
-                :null                    
-            }
-            <Modal visible={true} transparent={true}>
-                <View>
-                    <View>
-                        <Text>Dummy Data</Text>
-                        <Button title="Close"></Button>
-                    </View>
-                </View>
-
-            </Modal>
-        </View>
-    )
+    const product=[
+        {
+            productid:"A32",
+            name:"Samsung",
+            price:300,
+            Image:"https://www.pexels.com/photo/selective-focus-photography-of-person-holding-turned-on-smartphone-"
+       },
+       {
+        productid:"Nokia3310",
+        name:"Nokia",
+        price:150,
+        Image:"https://www.pexels.com/photo/selective-focus-photography-of-person-holding-turned-on-smartphone-"
+   },
+   {
+    productid:"V13",
+    name:"Redmi",
+    price:100,
+    Image:'file:///C:/Users/ab/Downloads/mobile-phone-2636.png'
 }
+    ]
+    return(
+        <ScrollView>
+            <Headers/>
+            {
+                product.map((item)=><Product item={item}/>)
+            }
+        </ScrollView>
+    );
+};
 export default App;
